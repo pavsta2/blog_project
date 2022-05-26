@@ -52,8 +52,8 @@ class NoteDetailAPIView(APIView):
 
 class PublicNoteListAPIView(ListAPIView):
     queryset = Note.objects.all()
-    serializer_class = serializers.NoteSerializer
+    serializer_class = serializers.NoteDetailSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(public=True)
+        return queryset.filter(public=True).prefetch_related('comment_set','authors')
